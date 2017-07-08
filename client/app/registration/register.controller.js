@@ -9,10 +9,13 @@
 
         var vm = this;
 
-        vm.department = {
-            id: ""
-            , name: ""
-            , manager: ""
+        vm.employee = {
+            id: "",
+            birth_date: "",
+            first_name: "",
+            last_name: "",
+            gender: "",
+            hire_date: "",
         };
         
         vm.status = {
@@ -22,39 +25,17 @@
 
         vm.register = register;
 
-        // Initialize employees/manager data
-        initManagerBox();
-        function initManagerBox() {
-            EmpService
-                .retrieveNonManagers()
-                .then(function (results) {
-                    console.log("--- EMPLOYEES ----");
-                    console.log(results.data);
-                    vm.employees = results.data;
-                })
-                .catch(function (err) {
-                    console.log("error " + JSON.stringify(err));
-                    vm.status.message = err.data.name;
-                    vm.status.code = err.data.parent.errno;
-                });
-        }
-
         // Click register() button
         function register() {
-            alert("The registration information you sent are \n" + JSON.stringify(vm.department));
+            alert("The registration information you sent are \n" + JSON.stringify(vm.employee));
 
             console.log("The registration information you sent were:");
-            console.log("Department id: " + vm.department.id);
-            console.log("Department name: " + vm.department.name);
-            console.log("Department name: " + vm.department.manager);
+            console.log("Emp no.: " + vm.employee.emp_no);
+            console.log("Emp name: " + vm.employee.first_name);
 
-            vm.department.from_date = $filter('date')(new Date(), 'yyyy-MM-dd');
-            vm.department.to_date = new Date('9999-01-01');
-            console.log("vm.dept" + JSON.stringify(vm.department));
-
-            // DeptService / insertDept
-            DeptService
-                .insertDept(vm.department)
+            // EmpService / insertEmp
+            EmpService
+                .insertEmp(vm.employee)
                 .then(function (result) {
                     console.log("result " + JSON.stringify(result));
                     $window.location.assign('/app/registration/thanks.html');
@@ -62,7 +43,7 @@
                 .catch(function (err) {
                     console.log("error " + JSON.stringify(err));
                     vm.status.message = err.data.name;
-                    vm.status.code = err.data.parent.errno;
+                    // vm.status.code = err.data.parent.err;
                 });
         }
     }

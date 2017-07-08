@@ -49,37 +49,25 @@ app.use(bodyParser.json());
 
 // ROUTE HANDLERS
 
-// DeptService, RegCtrl
-// Create department via transaction where department record is created only when manager record is created 
-app.post("/api/departments", function (req, res) {
+// EmpService, RegCtrl
+// Create employee
+app.post("/api/employees", function (req, res) {
     // post to req.body
     console.log('\nData Submitted');
-    console.log('Dept No: ' + req.body.dept.id);
-    console.log('Dept Name: ' + req.body.dept.name);
+    console.log('Emp No: ' + req.body.emp.emp_no);
+    console.log('Emp First Name: ' + req.body.emp.first_name);
 
-    sequelize
-        .transaction(function (t) {
-            return Department
-                .create(
-                    {
-                        dept_no: req.body.dept.id
-                        ,
-                        dept_name: req.body.dept.name
-                    }
-                    , {transaction: t})
-                .then(function (department) {
-                    console.log("inner result " + JSON.stringify(department))
-                    return Manager
-                        .create(
-                            {
-                                dept_no: req.body.dept.id
-                                , emp_no: req.body.dept.manager
-                                , from_date: req.body.dept.from_date
-                                , to_date: req.body.dept.to_date
-                            }
-                            , {transaction: t});
-                });
-        })
+    Employee
+        .create(
+            {
+                emp_no: req.body.emp.id,
+                first_name: req.body.emp.first_name,
+                last_name: req.body.emp.last_name,
+                gender: req.body.emp.gender,
+                birth_date: req.body.emp.birth_date,
+                hire_date: req.body.emp.hire_date,
+            }
+        )
         .then(function (results) {
             res
                 .status(200)

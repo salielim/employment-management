@@ -1,6 +1,6 @@
 <div ng-controller="RegCtrl as ctrl">
     <div class="page-header">
-        <h1>Department Management System
+        <h1>Employee Management System
             <small>Registration</small>
         </h1>
     </div>
@@ -9,51 +9,100 @@
     <!-- Form -->
     <form name="regForm" novalidate ng-submit="ctrl.register()" autocomplete="off">
 
-        <!--Input department no. -->
-        <div class="form-group"  ng-class="{ 'has-error': regForm.deptNo.$touched && regForm.deptNo.$invalid }">
+        <!--Input Employee no. -->
+        <div class="form-group"  ng-class="{ 'has-error': regForm.empNo.$touched && regForm.empNo.$invalid }">
 
-            <label for="deptNo">Department No:</label>
+            <label for="empNo">Employee No:</label>
             
-            <input type="number" id="deptNo" name="deptNo"
+            <input type="number" id="empNo" name="empNo"
                    class="form-control"
-                   ng-model="ctrl.department.id"
+                   ng-model="ctrl.employee.id"
                    required>
 
-            <div class="help-block" ng-messages="regForm.deptNo.$error" ng-if="regForm.deptNo.$touched">
-                <p ng-message="required">Department Number Required</p>
+            <div class="help-block" ng-messages="regForm.empNo.$error" ng-if="regForm.empNo.$touched">
+                <p ng-message="required">Employee Number Required</p>
             </div>
         </div>
 
-        <!--Input department name-->
-        <div class="form-group" ng-class="{ 'has-error': regForm.deptName.$touched && regForm.deptName.$invalid }">
-            <label for="deptName">Department name:</label>
+        <!--Input Employee first name-->
+        <div class="form-group" ng-class="{ 'has-error': regForm.empFirstName.$touched && regForm.empFirstName.$invalid }">
+            <label for="empFirstName">First name:</label>
 
-            <input type="text" id="deptName" name="deptName"
+            <input type="text" id="empFirstName" name="empFirstName"
                    class="form-control"
-                   ng-model="ctrl.department.name"
+                   ng-model="ctrl.employee.first_name"
                    ng-minlength="2"
                    required>
 
-            <div class="help-block" ng-messages="regForm.deptName.$error" ng-if="regForm.deptName.$touched">
-                <p ng-message="required">Department Name Required</p>
-                <p ng-message="minlength">Department Name Too Short</p>
+            <div class="help-block" ng-messages="regForm.empFirstName.$error" ng-if="regForm.empFirstName.$touched">
+                <p ng-message="required">Employee first Name Required</p>
+                <p ng-message="minlength">Employee first Name Too Short</p>
             </div>
         </div>
 
-        <!-- Input manager -->
-        <div class="form-group"
-             ng-class="{ 'has-error': regForm.deptManager.$touched && regForm.deptManager.$invalid }">
-            <label for="deptManager">Manager:</label>
-            <select id="deptManager" name="deptManager" class="form-control"
-                    ng-options="employee.emp_no as employee.first_name + ' ' + employee.last_name
-                    for employee in ctrl.employees"
-                    ng-model="ctrl.department.manager" required>
-            </select>
-            <div class="help-block" ng-messages="regForm.deptManager.$error" ng-if="regForm.deptManager.$touched">
-                <p ng-message="required">Department Manager Required</p>
+        <!--Input Employee last name-->
+        <div class="form-group" ng-class="{ 'has-error': regForm.empLastName.$touched && regForm.empLastName.$invalid }">
+            <label for="empFirstName">Last name:</label>
+
+            <input type="text" id="empLastName" name="empLastName"
+                   class="form-control"
+                   ng-model="ctrl.employee.last_name"
+                   ng-minlength="2"
+                   required>
+
+            <div class="help-block" ng-messages="regForm.empLastName.$error" ng-if="regForm.empLastName.$touched">
+                <p ng-message="required">Employee last name Required</p>
+                <p ng-message="minlength">Employee last name Too Short</p>
             </div>
         </div>
 
+        <!--Input Employee gender -->
+        <div class="form-group" ng-class="{ 'has-error': regForm.empGender.$touched && regForm.empGender.$invalid }">
+            <label for="empGender">Gender:</label>
+
+            <input type="text" id="empGender" name="empGender"
+                   class="form-control"
+                   ng-model="ctrl.employee.gender"
+                   ng-minlength="1"
+                   required>
+
+            <div class="help-block" ng-messages="regForm.empGender.$error" ng-if="regForm.empGender.$touched">
+                <p ng-message="required">Employee gender Required</p>
+                <p ng-message="minlength">Employee gender Too Short</p>
+            </div>
+        </div>
+
+        <!--Input employee birth date -->
+        <div class="form-group" ng-class="{ 'has-error': regForm.empBirthdate.$touched && regForm.empBirthdate.$invalid }">
+            <label for="empBirthdate">Birth date:</label>
+
+            <input type="date" id="empBirthdate" name="empBirthdate"
+                   class="form-control"
+                   ng-model="ctrl.employee.birth_date"
+                   ng-minlength="2"
+                   required>
+
+            <div class="help-block" ng-messages="regForm.empBirthdate.$error" ng-if="regForm.empBirthdate.$touched">
+                <p ng-message="required">Employee birthdate Required</p>
+                <p ng-message="minlength">Employee birthdate Too Short</p>
+            </div>
+        </div>
+
+        <!--Input employee hire date -->
+        <div class="form-group" ng-class="{ 'has-error': regForm.empHiredate.$touched && regForm.empHiredate.$invalid }">
+            <label for="empHiredate">Hire date:</label>
+
+            <input type="date" id="empHiredate" name="empHiredate"
+                   class="form-control"
+                   ng-model="ctrl.employee.hire_date"
+                   ng-minlength="2"
+                   required>
+
+            <div class="help-block" ng-messages="regForm.empHiredate.$error" ng-if="regForm.empHiredate.$touched">
+                <p ng-message="required">Employee birthdate Required</p>
+                <p ng-message="minlength">Employee birthdate Too Short</p>
+            </div>
+        </div>
 
         <!-- Click register() button -->
         <div class="form-group">
