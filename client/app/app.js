@@ -1,6 +1,6 @@
 (function () {
     angular
-        .module("DMS", [
+        .module("EMS", [
             "ngMessages",
             "ngAnimate",
             "ui.router"

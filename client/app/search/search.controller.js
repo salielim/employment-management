@@ -1,6 +1,6 @@
 (function () {
     angular
-        .module("DMS")
+        .module("EMS")
         .controller("SearchCtrl", SearchCtrl);
 
     SearchCtrl.$inject = ['DeptService'];

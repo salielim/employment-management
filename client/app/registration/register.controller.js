@@ -1,6 +1,6 @@
 (function () {
     angular
-        .module("DMS")
+        .module("EMS")
         .controller("RegCtrl", RegCtrl);
     
     RegCtrl.$inject = ['$filter', '$window', 'DeptService', 'EmpService']; // $filter for date formatting

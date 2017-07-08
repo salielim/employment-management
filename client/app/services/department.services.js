@@ -1,6 +1,6 @@
 (function () {
     angular
-        .module("DMS")
+        .module("EMS")
         .service("DeptService", DeptService);
 
     DeptService.$inject = ['$http'];

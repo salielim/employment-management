@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     angular
-        .module("DMS")
+        .module("EMS")
         .controller("EditCtrl", EditCtrl);
 
     EditCtrl.$inject = ["$filter", "DeptService", "$stateParams"];
