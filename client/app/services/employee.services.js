@@ -13,9 +13,8 @@
         // service.deleteDept = deleteDept;
         service.insertEmp = insertEmp;
         service.retrieveEmp = retrieveEmp;
-        // service.retrieveDeptDB = retrieveDeptDB;
-        // service.retrieveDeptByID = retrieveDeptByID;
-        // service.retrieveDeptManager = retrieveDeptManager;
+        service.retrieveEmpDB = retrieveEmpDB;
+        service.retrieveEmpByID = retrieveEmpByID;
         // service.updateDept = updateDept;
 
         // // REST API departments
@@ -28,7 +27,7 @@
 
         // }
 
-        // create employee
+        // done - create employee
         function insertEmp(employee) {
             return $http({
                 method: 'POST',
@@ -37,51 +36,32 @@
             });
         }
 
-        // retrieve employees
+        // done - read static employees
         function retrieveEmp() {
             return $http({
                 method: 'GET',
-                url: 'api/employees'
+                url: 'api/static/employees'
             });
         }
 
-        // // read static departments
-        // function retrieveDept() {
-        //     return $http({
-        //         method: 'GET'
-        //         , url: 'api/static/departments'
-        //     });
-        // }
+        // search employees
+        function retrieveEmpDB(searchString) {
+            return $http({
+                method: 'GET',
+                url: 'api/employees',
+                params: {
+                    'searchString': searchString
+                }
+            });
+        }
 
-        // // read departments
-        // function retrieveDeptDB(searchString) {
-        //     return $http({
-        //         method: 'GET'
-        //         , url: 'api/departments'
-        //         , params: {
-        //             'searchString': searchString
-        //         }
-        //     });
-        // }
-
-        // // read a department via param
-        // function retrieveDeptByID(dept_no) {
-        //     return $http({
-        //         method: 'GET'
-        //         , url: "api/departments/" + dept_no
-        //     });
-        // }
-
-        // // read department managers
-        // function retrieveDeptManager(searchString) {
-        //     return $http({
-        //         method: 'GET'
-        //         , url: 'api/departments/managers'
-        //         , params: {
-        //             'searchString': searchString
-        //         }
-        //     });
-        // }
+        // read employee via param
+        function retrieveEmpByID(emp_no) {
+            return $http({
+                method: 'GET'
+                , url: "api/employees/" + emp_no
+            });
+        }
         
         // // edit a department
         // function updateDept(dept_no, dept_name) {

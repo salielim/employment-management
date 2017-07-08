@@ -50,7 +50,7 @@ app.use(bodyParser.json());
 // ROUTE HANDLERS
 
 // EmpService, RegCtrl
-// Create employee
+// done - Create employee
 app.post("/api/employees", function (req, res) {
     // post to req.body
     console.log('\nData Submitted');
@@ -81,22 +81,25 @@ app.post("/api/employees", function (req, res) {
         });
     });
 
-// DeptService, SearchCtrl
-// Retrieve department information from database via search findAll
-app.get("/api/departments", function (req, res) {
-    Department
+// EmpService, SearchDBCtrl
+// done - retrieve employee information from database via search findAll
+app.get("/api/employees", function (req, res) {
+    console.log("start findall");
+    Employee
         .findAll({
             where: {
                 $or: [
-                    {dept_name: {$like: "%" + req.query.searchString + "%"}},
-                    {dept_no: {$like: "%" + req.query.searchString + "%"}}
+                    {emp_no: {$like: "%" + req.query.searchString + "%"}},
+                    {first_name: {$like: "%" + req.query.searchString + "%"}},
+                    {last_name: {$like: "%" + req.query.searchString + "%"}}
                 ]
             }
         })
-        .then(function (departments) {
+        .then(function (employees) {
             res
                 .status(200)
-                .json(departments);
+                .json(employees);
+                console.log("finish findall");
         })
         .catch(function (err) {
             res
@@ -105,74 +108,72 @@ app.get("/api/departments", function (req, res) {
         });
 });
 
-// DeptService, SearchDBCtrl
-// Retrieve department & manager records that match against dept name or dept no.
-app.get("/api/departments/managers", function (req, res) {
-    Department
-        .findAll({
-            where: {
-                $or: [
-                    {dept_name: {$like: "%" + req.query.searchString + "%"}},
-                    {dept_no: {$like: "%" + req.query.searchString + "%"}}
-                    // match any of the condition
-                ]
-            }
-            // include joins the tables
-            , include: [{
-                model: Manager
-                , order: [["to_date", "DESC"]]
-                , limit: 1
-                // We include the Employee model to get the manager's name
-                , include: [Employee]
-            }]
-        })
-        .then(function (departments) {
-            res
-                .status(200)
-                .json(departments);
-        })
-        // this .catch() handles erroneous findAll operation
-        .catch(function (err) {
-            res
-                .status(500)
-                .json(err);
-        });
-});
+// EmpService, SearchDBCtrl
+// Retrieve employee records that match against employee name or  no.
+// app.get("/api/departments/managers", function (req, res) {
+//     Department
+//         .findAll({
+//             where: {
+//                 $or: [
+//                     {dept_name: {$like: "%" + req.query.searchString + "%"}},
+//                     {dept_no: {$like: "%" + req.query.searchString + "%"}}
+//                     // match any of the condition
+//                 ]
+//             }
+//             // include joins the tables
+//             , include: [{
+//                 model: Manager
+//                 , order: [["to_date", "DESC"]]
+//                 , limit: 1
+//                 // We include the Employee model to get the manager's name
+//                 , include: [Employee]
+//             }]
+//         })
+//         .then(function (departments) {
+//             res
+//                 .status(200)
+//                 .json(departments);
+//         })
+//         // this .catch() handles erroneous findAll operation
+//         .catch(function (err) {
+//             res
+//                 .status(500)
+//                 .json(err);
+//         });
+// });
 
-// DeptService, SearchDBCtrl
-// Search specific department by dept_no
-    // define before /api/departments/managers if not managers route would be treated as dept_no
-app.get("/api/departments/:dept_no", function (req, res) {
-    var where = {};
-    if (req.params.dept_no) {
-        where.dept_no = req.params.dept_no
-    }
+// // EmpService, SearchDBCtrl
+// // Search specific employee by emp_no
+// app.get("/api/employees/:emp_no", function (req, res) {
+//     var where = {};
+//     if (req.params.emp_no) {
+//         where.emp_no = req.params.emp_no
+//     }
 
-    console.log("where " + where);
+//     console.log("where " + where);
 
-    Department
-        .findOne({
-            // use findOne as dept_no is the primary key, cannot use findById as it doesn't support eager loading
-            where: where
-            , include: [{
-                model: Manager
-                , order: [["to_date", "DESC"]]
-                , limit: 1
-                , include: [Employee]
-            }]
-        })
-        .then(function (departments) {
-            console.log("-- GET /api/departments/:dept_no findOne then() result \n " + JSON.stringify(departments));
-            res.json(departments);
-        })
-        .catch(function (err) {
-            console.log("-- GET /api/departments/:dept_no findOne catch() \n " + JSON.stringify(departments));
-            res
-                .status(500)
-                .json({error: true});
-        });
+//     Employee
+//         .findOne({
+//             where: where
+//             , include: [{
+//                 model: Manager
+//                 , order: [["to_date", "DESC"]]
+//                 , limit: 1
+//                 , include: [Employee]
+//             }]
+//         })
+//         .then(function (employees) {
+//             console.log("-- GET /api/departments/:dept_no findOne then() result \n " + JSON.stringify(employees));
+//             res.json(departments);
+//         })
+//         .catch(function (err) {
+//             console.log("-- GET /api/departments/:dept_no findOne catch() \n " + JSON.stringify(employees));
+//             res
+//                 .status(500)
+//                 .json({error: true});
+//         });
 
-});
+// });
 
 // DeptService, EditCtrl
 // Edit department info
@@ -223,44 +224,6 @@ app.delete("/api/departments/:dept_no/managers/:emp_no", function (req, res) {
     })
 });
 
-// DeptService
-// Retrieve department data (static)
-app.get("/api/static/departments", function (req, res) {
-
-    var departments = [
-        {
-            deptNo: 1001,
-            deptName: 'Admin'
-        }
-        , {
-            deptNo: 1002,
-            deptName: 'Finance'
-        }
-        , {
-            deptNo: 1003,
-            deptName: 'Sales'
-        }
-        , {
-            deptNo: 1004,
-            deptName: 'HR'
-        }
-        , {
-            deptNo: 1005,
-            deptName: 'Staff'
-        }
-        , {
-            deptNo: 1006,
-            deptName: 'Customer Care'
-        }
-        , {
-            deptNo: 1007,
-            deptName: 'Support'
-        }
-    ];
-
-    res.status(200).json(departments);    // return as json object
-});
-
 // EmpService
 // Retrieve employee data (non-managers)
 app.get("/api/employees", function (req, res) {
@@ -269,7 +232,6 @@ app.get("/api/employees", function (req, res) {
             "FROM employees e " +
             "WHERE NOT EXISTS " +
             "(SELECT * " +
-            "FROM dept_manager dm " +
             "WHERE dm.emp_no = e.emp_no )" +
             "LIMIT 100; " // SQL statement
         )
