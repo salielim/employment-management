@@ -10,22 +10,14 @@
 
         var service = this;
 
-        // service.deleteDept = deleteDept;
+        service.deleteEmp = deleteEmp;
         service.insertEmp = insertEmp;
         service.retrieveEmp = retrieveEmp;
         service.retrieveEmpDB = retrieveEmpDB;
         service.retrieveEmpByID = retrieveEmpByID;
         service.updateEmpName = updateEmpName;
 
-        // // REST API departments
-        // // delete department manager
-        // function deleteDept(dept_no, emp_no) {
-        //     return $http({
-        //         method: 'DELETE'
-        //         , url: 'api/departments/' + dept_no + "/managers/" + emp_no
-        //     });
-
-        // }
+        // REST API departments
 
         // done - create employee
         function insertEmp(employee) {
@@ -55,7 +47,7 @@
             });
         }
 
-        // read employee via param
+        // done - read employee via param
         function retrieveEmpByID(emp_no) {
             return $http({
                 method: 'GET'
@@ -63,7 +55,7 @@
             });
         }
         
-        // edit a employee
+        // done - edit a employee
         function updateEmpName(emp_no, first_name, last_name) {
             return $http({
                 method: 'PUT' // via route parameters & HTTP header body
@@ -74,6 +66,15 @@
                     last_name: last_name
                 }
             });
+        }
+
+        // delete employee
+        function deleteEmp(emp_no) {
+            return $http({
+                method: 'DELETE'
+                , url: 'api/employees/' + emp_no
+            });
+
         }
     }
 })();

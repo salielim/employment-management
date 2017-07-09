@@ -22,6 +22,8 @@
 
     <hr>
 
+    <div>{{ ctrl.msg }}</div>
+
     <!-- Employee table display -->
     <table class="table table-striped" ng-show="ctrl.showDetails">
         <thead>
@@ -101,6 +103,15 @@
                 <td>Hire date</td>
                 <td>
                     {{ ctrl.result.hire_date }}
+                </td>
+            </tr>
+            <tr>
+                <td>Delete employee</td>
+                <td>
+                    <button type="button" class="btn btn-success" ng-click="ctrl.deleteEmp()" ng-model="ctrl.emp_no">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </button>
+
                 </td>
             </tr>
             <!-- <tr>

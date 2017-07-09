@@ -166,55 +166,54 @@ app.put('/api/employees/:emp_no', function (req, res) {
         })
 });
 
-// DeptService, EditCtrl
-// Delete manager of specific department via param
-// app.delete("/api/departments/:dept_no/managers/:emp_no", function (req, res) {
+// EmpService, EditCtrl
+// Delete employee via param
+app.delete("/api/employees/:emp_no", function (req, res) {
 
-//     var where = {};
-//     where.dept_no = req.params.dept_no;
-//     where.emp_no = req.params.emp_no;
+    var where = {};
+    where.emp_no = req.params.emp_no;
 
-//     Manager
-//     .destroy({
-//         where: where
-//     })
-//     .then(function(result) {
-//         console.log("records delete: " + result);
-//         if (result == 1) {
-//             res.json({ success: true });
-//         } else {
-//             res.json({ success: false});
-//         }
-//     })
-//     .catch(function(err) {
-//         res.status(500).json({ success: false });
-//         console.log(err);
-//     })
-// });
+    Employee
+    .destroy({
+        where: where
+    })
+    .then(function(result) {
+        console.log("records delete: " + result);
+        if (result == 1) {
+            res.json({ success: true });
+        } else {
+            res.json({ success: false});
+        }
+    })
+    .catch(function(err) {
+        res.status(500).json({ success: false });
+        console.log(err);
+    })
+});
 
 // EmpService
 // Retrieve employee data (non-managers)
-app.get("/api/employees", function (req, res) {
-    sequelize
-        .query("SELECT emp_no, first_name, last_name " +
-            "FROM employees e " +
-            "WHERE NOT EXISTS " +
-            "(SELECT * " +
-            "WHERE dm.emp_no = e.emp_no )" +
-            "LIMIT 100; " // SQL statement
-        )
-        .spread(function (employees) {
-            // .spread() instead of .then to separate metadata
-            res
-                .status(200)
-                .json(employees);
-        })
-        .catch(function (err) {
-            res
-                .status(500)
-                .json(err);
-        });
-});
+// app.get("/api/employees", function (req, res) {
+//     sequelize
+//         .query("SELECT emp_no, first_name, last_name " +
+//             "FROM employees e " +
+//             "WHERE NOT EXISTS " +
+//             "(SELECT * " +
+//             "WHERE dm.emp_no = e.emp_no )" +
+//             "LIMIT 100; " // SQL statement
+//         )
+//         .spread(function (employees) {
+//             // .spread() instead of .then to separate metadata
+//             res
+//                 .status(200)
+//                 .json(employees);
+//         })
+//         .catch(function (err) {
+//             res
+//                 .status(500)
+//                 .json(err);
+//         });
+// });
 
 // Error handling
     // bottom of the stack below all other path handlers

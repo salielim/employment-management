@@ -10,12 +10,10 @@
         var vm = this;
 
         vm.emp_no = "";
-        // vm.first_name = "";
         vm.result = {};
+        vm.msg = "";
 
-        //console.log("console" + vm.first_name);
-
-        // vm.deleteManager = deleteManager;
+        vm.deleteEmp = deleteEmp;
         vm.initDetails = initDetails;
         vm.search = search;
         vm.toggleEditor = toggleEditor;
@@ -25,43 +23,16 @@
         initDetails();
         function initDetails() {
             console.log("-- show.controller.js > initDetails()");
+            
             vm.result.emp_no = "";
             vm.result.first_name = "";
+            vm.result.last_name = "";
+            vm.result.gender = "";
+            vm.result.birth_date = "";
+            vm.result.hire_date = "";
+
             vm.showDetails = false;
             vm.isEditorOn = false;
-        }
-
-        // Pass emp params
-        if ($stateParams.empNo) {
-            console.log("passing info" + $stateParams.empNo)
-            vm.emp_no = $stateParams.empNo;
-            vm.search();
-        }
-
-        // Click deleteManager() button
-        function deleteManager() {
-            EmpService
-                .deleteEmp(vm.emp_no)
-                .then(function (response) {
-                    search();
-                })
-                .catch(function (err) {
-                    console.log("error: \n" + JSON.stringify(err));
-                });
-        }
-
-        // Click updateEmpName() button
-        function updateEmpName() {
-            console.log("in updateEmpName()");
-            EmpService
-                .updateEmpName(vm.emp_no, vm.result.first_name, vm.result.last_name)
-                .then(function (result) {
-                    console.log("-- show.controller.js > save() > results: \n" + JSON.stringify(result.data));
-                })
-                .catch(function (err) {
-                    console.log("--  show.controller.js > save() > error: \n" + JSON.stringify(err));
-                });
-            vm.toggleEditor();
         }
 
         // Click search() button
@@ -95,9 +66,43 @@
                 });
         }
 
-        // Click toggleEditor() button
+        // Click updateEmpName() button
+        function updateEmpName() {
+            console.log("in updateEmpName()");
+            EmpService
+                .updateEmpName(vm.emp_no, vm.result.first_name, vm.result.last_name)
+                .then(function (result) {
+                    console.log("-- show.controller.js > save() > results: \n" + JSON.stringify(result.data));
+                })
+                .catch(function (err) {
+                    console.log("--  show.controller.js > save() > error: \n" + JSON.stringify(err));
+                });
+            vm.toggleEditor();
+        }
+
+        // Click edit toggleEditor() button
         function toggleEditor() {
             vm.isEditorOn = !(vm.isEditorOn);
         }
+
+        // Click deleteEmp() button
+        function deleteEmp() {
+            EmpService
+                .deleteEmp(vm.emp_no)
+                .then(function (response) {
+                    search();
+                    alert("Employee no. " + JSON.stringify(vm.emp_no) + " have been deleted.");
+                })
+                .catch(function (err) {
+                    console.log("error: \n" + JSON.stringify(err));
+                });
+        }
+
+        // // Pass emp params
+        // if ($stateParams.empNo) {
+        //     console.log("passing info" + $stateParams.empNo)
+        //     vm.emp_no = $stateParams.empNo;
+        //     vm.search();
+        // }
     }
 })();
