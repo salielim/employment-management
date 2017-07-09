@@ -15,7 +15,7 @@
         service.retrieveEmp = retrieveEmp;
         service.retrieveEmpDB = retrieveEmpDB;
         service.retrieveEmpByID = retrieveEmpByID;
-        // service.updateDept = updateDept;
+        service.updateEmpName = updateEmpName;
 
         // // REST API departments
         // // delete department manager
@@ -44,7 +44,7 @@
             });
         }
 
-        // search employees
+        // done - search employees
         function retrieveEmpDB(searchString) {
             return $http({
                 method: 'GET',
@@ -63,16 +63,17 @@
             });
         }
         
-        // // edit a department
-        // function updateDept(dept_no, dept_name) {
-        //     return $http({
-        //         method: 'PUT' // via route parameters & HTTP header body
-        //         , url: 'api/departments/' + dept_no
-        //         , data: {
-        //             dept_no: dept_no,
-        //             dept_name: dept_name
-        //         }
-        //     });
-        // }
+        // edit a employee
+        function updateEmpName(emp_no, first_name, last_name) {
+            return $http({
+                method: 'PUT' // via route parameters & HTTP header body
+                , url: 'api/employees/' + emp_no
+                , data: {
+                    emp_no: emp_no,
+                    first_name: first_name,
+                    last_name: last_name
+                }
+            });
+        }
     }
 })();

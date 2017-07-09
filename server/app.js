@@ -109,83 +109,51 @@ app.get("/api/employees", function (req, res) {
 });
 
 // EmpService, SearchDBCtrl
-// Retrieve employee records that match against employee name or  no.
-// app.get("/api/departments/managers", function (req, res) {
-//     Department
-//         .findAll({
-//             where: {
-//                 $or: [
-//                     {dept_name: {$like: "%" + req.query.searchString + "%"}},
-//                     {dept_no: {$like: "%" + req.query.searchString + "%"}}
-//                     // match any of the condition
-//                 ]
-//             }
-//             // include joins the tables
-//             , include: [{
-//                 model: Manager
-//                 , order: [["to_date", "DESC"]]
-//                 , limit: 1
-//                 // We include the Employee model to get the manager's name
-//                 , include: [Employee]
-//             }]
-//         })
-//         .then(function (departments) {
-//             res
-//                 .status(200)
-//                 .json(departments);
-//         })
-//         // this .catch() handles erroneous findAll operation
-//         .catch(function (err) {
-//             res
-//                 .status(500)
-//                 .json(err);
-//         });
-// });
+// done - Search specific employee by emp_no
+app.get("/api/employees/:emp_no", function (req, res) {
+    var where = {};
+    if (req.params.emp_no) {
+        where.emp_no = req.params.emp_no
+    }
 
-// // EmpService, SearchDBCtrl
-// // Search specific employee by emp_no
-// app.get("/api/employees/:emp_no", function (req, res) {
-//     var where = {};
-//     if (req.params.emp_no) {
-//         where.emp_no = req.params.emp_no
-//     }
+    console.log("where " + where);
 
-//     console.log("where " + where);
+    Employee
+        .findOne({
+            where: where,
+            // , include: [{
+            //     model: Manager
+            //     , order: [["to_date", "DESC"]]
+            //     , limit: 1
+            //     , include: [Employee]
+            // }]
+        })
+        .then(function (employees) {
+            console.log("-- GET /api/employees/:emp_no findOne then() result \n " + JSON.stringify(employees));
+            res.json(employees);
+        })
+        .catch(function (err) {
+            console.log("-- GET /api/employees/:emp_no findOne catch() \n " + JSON.stringify(employees));
+            res
+                .status(500)
+                .json({error: true});
+        });
 
-//     Employee
-//         .findOne({
-//             where: where
-//             , include: [{
-//                 model: Manager
-//                 , order: [["to_date", "DESC"]]
-//                 , limit: 1
-//                 , include: [Employee]
-//             }]
-//         })
-//         .then(function (employees) {
-//             console.log("-- GET /api/departments/:dept_no findOne then() result \n " + JSON.stringify(employees));
-//             res.json(departments);
-//         })
-//         .catch(function (err) {
-//             console.log("-- GET /api/departments/:dept_no findOne catch() \n " + JSON.stringify(employees));
-//             res
-//                 .status(500)
-//                 .json({error: true});
-//         });
+});
 
-// });
-
-// DeptService, EditCtrl
-// Edit department info
-app.put('/api/departments/:dept_no', function (req, res) {
+// EmpService, EditCtrl
+// done - Edit employees info
+app.put('/api/employees/:emp_no', function (req, res) {
 
     var where = {};
-    where.dept_no = req.params.dept_no;
-    var new_dept_name = req.body.dept_name;
+    where.emp_no = req.params.emp_no;
+    var new_first_name = req.body.first_name;
+    var new_last_name = req.body.last_name;
 
-    Department
+    Employee
         .update({
-            dept_name: new_dept_name,
+            first_name: new_first_name,
+            last_name: new_last_name,
         },{
             where: where,
         })
@@ -200,29 +168,29 @@ app.put('/api/departments/:dept_no', function (req, res) {
 
 // DeptService, EditCtrl
 // Delete manager of specific department via param
-app.delete("/api/departments/:dept_no/managers/:emp_no", function (req, res) {
+// app.delete("/api/departments/:dept_no/managers/:emp_no", function (req, res) {
 
-    var where = {};
-    where.dept_no = req.params.dept_no;
-    where.emp_no = req.params.emp_no;
+//     var where = {};
+//     where.dept_no = req.params.dept_no;
+//     where.emp_no = req.params.emp_no;
 
-    Manager
-    .destroy({
-        where: where
-    })
-    .then(function(result) {
-        console.log("records delete: " + result);
-        if (result == 1) {
-            res.json({ success: true });
-        } else {
-            res.json({ success: false});
-        }
-    })
-    .catch(function(err) {
-        res.status(500).json({ success: false });
-        console.log(err);
-    })
-});
+//     Manager
+//     .destroy({
+//         where: where
+//     })
+//     .then(function(result) {
+//         console.log("records delete: " + result);
+//         if (result == 1) {
+//             res.json({ success: true });
+//         } else {
+//             res.json({ success: false});
+//         }
+//     })
+//     .catch(function(err) {
+//         res.status(500).json({ success: false });
+//         console.log(err);
+//     })
+// });
 
 // EmpService
 // Retrieve employee data (non-managers)

@@ -4,46 +4,44 @@
         .module("EMS")
         .controller("EditCtrl", EditCtrl);
 
-    EditCtrl.$inject = ["$filter", "DeptService", "$stateParams"];
+    EditCtrl.$inject = ["$filter", "DeptService", "$stateParams", "EmpService"];
 
-    function EditCtrl($filter, DeptService, $stateParams) {
+    function EditCtrl($filter, DeptService, $stateParams, EmpService) {
         var vm = this;
 
-        vm.dept_no = "";
+        vm.emp_no = "";
+        // vm.first_name = "";
         vm.result = {};
 
-        vm.deleteManager = deleteManager;
+        //console.log("console" + vm.first_name);
+
+        // vm.deleteManager = deleteManager;
         vm.initDetails = initDetails;
         vm.search = search;
         vm.toggleEditor = toggleEditor;
-        vm.updateDeptName = updateDeptName;
+        vm.updateEmpName = updateEmpName;
 
-        // Initialize department data view
+        // Initialize emp data view
         initDetails();
         function initDetails() {
             console.log("-- show.controller.js > initDetails()");
-            vm.result.dept_no = "";
-            vm.result.dept_name = "";
-            vm.result.manager_id = "";
-            vm.result.manager_name = "";
-            vm.result.manager_from = "";
-            vm.result.manager_to = "";
-            vm.result.manager_id = "";
+            vm.result.emp_no = "";
+            vm.result.first_name = "";
             vm.showDetails = false;
             vm.isEditorOn = false;
         }
 
-        // Pass department params
-        if ($stateParams.deptNo) {
-            console.log("passing info" + $stateParams.deptNo)
-            vm.dept_no = $stateParams.deptNo;
+        // Pass emp params
+        if ($stateParams.empNo) {
+            console.log("passing info" + $stateParams.empNo)
+            vm.emp_no = $stateParams.empNo;
             vm.search();
         }
 
         // Click deleteManager() button
         function deleteManager() {
-            DeptService
-                .deleteDept(vm.dept_no, vm.result.manager_id)
+            EmpService
+                .deleteEmp(vm.emp_no)
                 .then(function (response) {
                     search();
                 })
@@ -52,11 +50,11 @@
                 });
         }
 
-        // Click updateDeptName() button
-        function updateDeptName() {
-            console.log("-- show.controller.js > save()");
-            DeptService
-                .updateDept(vm.dept_no, vm.result.dept_name)
+        // Click updateEmpName() button
+        function updateEmpName() {
+            console.log("in updateEmpName()");
+            EmpService
+                .updateEmpName(vm.emp_no, vm.result.first_name, vm.result.last_name)
                 .then(function (result) {
                     console.log("-- show.controller.js > save() > results: \n" + JSON.stringify(result.data));
                 })
@@ -72,8 +70,8 @@
             initDetails();
             vm.showDetails = true;
 
-            DeptService
-                .retrieveDeptByID(vm.dept_no)
+            EmpService
+                .retrieveEmpByID(vm.emp_no)
                 .then(function (result) {
                     vm.showDetails = true;
 
@@ -82,18 +80,15 @@
                     if (!result.data)
                         return;
 
-                    vm.result.dept_no = result.data.dept_no;
-                    vm.result.dept_name = result.data.dept_name;
-                    if (result.data.managers[0]) {
-                        vm.result.manager_id = result.data.managers[0].emp_no;
-                        vm.result.manager_name = result.data.managers[0].employee.first_name
-                            + " "
-                            + result.data.managers[0].employee.last_name;
-                        vm.result.manager_from = $filter('date')
-                            (result.data.managers[0].from_date, 'MMM dd, yyyy');
-                        vm.result.manager_to = $filter('date')
-                            (result.data.managers[0].to_date, 'MMM dd, yyyy');
-                    }
+                    vm.result.emp_no = result.data.emp_no;
+                    vm.result.first_name = result.data.first_name;
+                    vm.result.gender = result.data.gender;
+                    vm.result.last_name = result.data.last_name;
+                    vm.result.birth_date = result.data.birth_date;
+                    vm.result.hire_date = result.data.hire_date;
+                    console.log(result.data.first_name + result.data.last_name);
+                    console.log(result.data.birth_date + result.data.hire_date);
+                    console.log(result.data.gender);
                 })
                 .catch(function (err) {
                     console.log("--  show.controller.js > search() > error: \n" + JSON.stringify(err));
