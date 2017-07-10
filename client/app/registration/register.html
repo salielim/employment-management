@@ -10,14 +10,11 @@
     <form name="regForm" novalidate ng-submit="ctrl.register()" autocomplete="off">
 
         <!--Input Employee no. -->
-        <div class="form-group"  ng-class="{ 'has-error': regForm.empNo.$touched && regForm.empNo.$invalid }">
+        <div class="form-group" ng-class="{ 'has-error': regForm.empNo.$touched && regForm.empNo.$invalid }">
 
             <label for="empNo">Employee No:</label>
-            
-            <input type="number" id="empNo" name="empNo"
-                   class="form-control"
-                   ng-model="ctrl.employee.id"
-                   required>
+
+            <input type="number" id="empNo" name="empNo" class="form-control" ng-model="ctrl.employee.id" required>
 
             <div class="help-block" ng-messages="regForm.empNo.$error" ng-if="regForm.empNo.$touched">
                 <p ng-message="required">Employee Number Required</p>
@@ -28,11 +25,8 @@
         <div class="form-group" ng-class="{ 'has-error': regForm.empFirstName.$touched && regForm.empFirstName.$invalid }">
             <label for="empFirstName">First name:</label>
 
-            <input type="text" id="empFirstName" name="empFirstName"
-                   class="form-control"
-                   ng-model="ctrl.employee.first_name"
-                   ng-minlength="2"
-                   required>
+            <input type="text" id="empFirstName" name="empFirstName" class="form-control" ng-model="ctrl.employee.first_name" ng-minlength="2"
+                required>
 
             <div class="help-block" ng-messages="regForm.empFirstName.$error" ng-if="regForm.empFirstName.$touched">
                 <p ng-message="required">Employee first Name Required</p>
@@ -44,11 +38,8 @@
         <div class="form-group" ng-class="{ 'has-error': regForm.empLastName.$touched && regForm.empLastName.$invalid }">
             <label for="empFirstName">Last name:</label>
 
-            <input type="text" id="empLastName" name="empLastName"
-                   class="form-control"
-                   ng-model="ctrl.employee.last_name"
-                   ng-minlength="2"
-                   required>
+            <input type="text" id="empLastName" name="empLastName" class="form-control" ng-model="ctrl.employee.last_name" ng-minlength="2"
+                required>
 
             <div class="help-block" ng-messages="regForm.empLastName.$error" ng-if="regForm.empLastName.$touched">
                 <p ng-message="required">Employee last name Required</p>
@@ -59,12 +50,20 @@
         <!--Input Employee gender -->
         <div class="form-group" ng-class="{ 'has-error': regForm.empGender.$touched && regForm.empGender.$invalid }">
             <label for="empGender">Gender:</label>
+            <div class="radio">
+                <label><input type="radio" name="empGenderM" id="empGenderM" value="M" ng-model="ctrl.employee.gender"
+                   required>M</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="empGenderF" id="empGenderF" value="F" ng-model="ctrl.employee.gender"
+                   required>F</label>
+            </div>
 
-            <input type="text" id="empGender" name="empGender"
+            <!-- <input type="text" id="empGender" name="empGender"
                    class="form-control"
                    ng-model="ctrl.employee.gender"
                    ng-minlength="1"
-                   required>
+                   required> -->
 
             <div class="help-block" ng-messages="regForm.empGender.$error" ng-if="regForm.empGender.$touched">
                 <p ng-message="required">Employee gender Required</p>
@@ -76,11 +75,8 @@
         <div class="form-group" ng-class="{ 'has-error': regForm.empBirthdate.$touched && regForm.empBirthdate.$invalid }">
             <label for="empBirthdate">Birth date:</label>
 
-            <input type="date" id="empBirthdate" name="empBirthdate"
-                   class="form-control"
-                   ng-model="ctrl.employee.birth_date"
-                   ng-minlength="2"
-                   required>
+            <input type="date" id="empBirthdate" name="empBirthdate" class="form-control" ng-model="ctrl.employee.birth_date" ng-minlength="2"
+                required>
 
             <div class="help-block" ng-messages="regForm.empBirthdate.$error" ng-if="regForm.empBirthdate.$touched">
                 <p ng-message="required">Employee birthdate Required</p>
@@ -92,11 +88,8 @@
         <div class="form-group" ng-class="{ 'has-error': regForm.empHiredate.$touched && regForm.empHiredate.$invalid }">
             <label for="empHiredate">Hire date:</label>
 
-            <input type="date" id="empHiredate" name="empHiredate"
-                   class="form-control"
-                   ng-model="ctrl.employee.hire_date"
-                   ng-minlength="2"
-                   required>
+            <input type="date" id="empHiredate" name="empHiredate" class="form-control" ng-model="ctrl.employee.hire_date" ng-minlength="2"
+                required>
 
             <div class="help-block" ng-messages="regForm.empHiredate.$error" ng-if="regForm.empHiredate.$touched">
                 <p ng-message="required">Employee birthdate Required</p>
@@ -106,9 +99,7 @@
 
         <!-- Click register() button -->
         <div class="form-group">
-            <button type="submit"
-                    class="btn-success form-control"
-                    ng-disabled="regForm.$invalid">
+            <button type="submit" class="btn-success form-control" ng-disabled="regForm.$invalid">
                 Register
             </button>
         </div>
@@ -116,8 +107,7 @@
     </form>
 
     <!-- Status messages-->
-    <div class="alert" role="alert" alert-dismissable ng-show="ctrl.status.code"
-         ng-class="{'alert-success': ctrl.status.code == 0, 'alert-danger': ctrl.status.code != 0 }">
+    <div class="alert" role="alert" alert-dismissable ng-show="ctrl.status.code" ng-class="{'alert-success': ctrl.status.code == 0, 'alert-danger': ctrl.status.code != 0 }">
 
         <button class="close" data-dismiss="alert">
             <!-- data dismiss removes the element. This alert won't show up again before refreshing -->

@@ -193,27 +193,28 @@ app.delete("/api/employees/:emp_no", function (req, res) {
 
 // EmpService
 // Retrieve employee data (non-managers)
-// app.get("/api/employees", function (req, res) {
-//     sequelize
-//         .query("SELECT emp_no, first_name, last_name " +
-//             "FROM employees e " +
-//             "WHERE NOT EXISTS " +
-//             "(SELECT * " +
-//             "WHERE dm.emp_no = e.emp_no )" +
-//             "LIMIT 100; " // SQL statement
-//         )
-//         .spread(function (employees) {
-//             // .spread() instead of .then to separate metadata
-//             res
-//                 .status(200)
-//                 .json(employees);
-//         })
-//         .catch(function (err) {
-//             res
-//                 .status(500)
-//                 .json(err);
-//         });
-// });
+app.get("/api/employees", function (req, res) {
+    sequelize
+        .query("SELECT emp_no, first_name, last_name " +
+            "FROM employees e " +
+            "WHERE NOT EXISTS " +
+            "(SELECT * " +
+            "FROM dept_manager dm " +
+            "WHERE dm.emp_no = e.emp_no )" +
+            "LIMIT 100; " // SQL statement
+        )
+        .spread(function (employees) {
+            // .spread() instead of .then to separate metadata
+            res
+                .status(200)
+                .json(employees);
+        })
+        .catch(function (err) {
+            res
+                .status(500)
+                .json(err);
+        });
+});
 
 // Error handling
     // bottom of the stack below all other path handlers
